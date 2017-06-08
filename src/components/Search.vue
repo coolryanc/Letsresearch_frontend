@@ -1,5 +1,5 @@
 <template lang="pug">
-  #search
+  #search(href="#landing" v-smooth-scroll="{ duration: 1000 }")
 </template>
 
 <script>

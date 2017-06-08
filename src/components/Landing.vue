@@ -1,5 +1,5 @@
 <template lang="pug">
-  #landing
+  #landing(href="#search" v-smooth-scroll="{ duration: 1000 }")
     .halfbgc
     .titleContain
       .titleImg
@@ -19,7 +19,6 @@ export default {
     }
   }
 }
-console.log('hihi');
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
