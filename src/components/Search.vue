@@ -21,6 +21,6 @@ export default {
 
 #search
   +setSize
-  background-color: $secondary-color
+  background-color: $primary-color
 
 </style>
