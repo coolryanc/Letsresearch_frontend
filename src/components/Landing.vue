@@ -1,9 +1,10 @@
 <template lang="pug">
-  #landing
+  #landing(href="#search" v-smooth-scroll="{ duration: 1000 }")
     .halfbgc
     .titleContain
       .titleImg
-      .title LabTop
+      .title Research Map
+      .subtitle Find the lab that most suitable for you in worldwide!
     .mouse
       .bar
       span
@@ -19,7 +20,6 @@ export default {
     }
   }
 }
-console.log('hihi');
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -51,26 +51,36 @@ console.log('hihi');
   border-radius: 40px
   padding: 0 50px
   display: flex
-  background-color: rgba($secondary-color,0.5)
-  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5)
+  align-items: center
+  justify-content: center
+  // background-color: rgba($secondary-color,0.5)
+  // box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5)
 
 .titleImg
   width: 150px
   height: 150px
   background-repeat: no-repeat
   background-image: url('../assets/worldwide.svg')
-  position: relative
-  top: 50%
-  transform: translateY(-55%)
+  transform: translateY(-10%)
 
 .title
   font-family: 'Nunito', sans-serif
   color: $text-color
   line-height: 180px
-  font-size: 7em
+  font-size: 5em
   font-weight: 900
-  text-shadow: 3px 3px 0 rgba(255, 255, 255, 0.5)
+  text-shadow: 3px 3px 0 darken(#FF7058,4%)
   margin-left: 15px
+  white-space: nowrap
+
+.subtitle
+  position: absolute
+  bottom: -30%
+  color: white
+  white-space: nowrap
+  font-size: 1em
+  letter-spacing: 3px
+  font-weight: 900
 
 .mouse
   cursor: pointer
