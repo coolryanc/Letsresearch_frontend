@@ -4,7 +4,7 @@
     .titleContain
       .titleImg
       .title Research Map
-      .subtitle Find the lab that most suitable for you in worldwide!
+      .subtitle Find the lab that is most suitable for you worldwide!
     .mouse
       .bar
       span
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'hello',
+  name: 'landing',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
@@ -66,6 +66,7 @@ export default {
 .title
   font-family: 'Nunito', sans-serif
   color: $text-color
+  user-select: none
   line-height: 180px
   font-size: 5em
   font-weight: 900
