@@ -18,6 +18,7 @@ export default {
     return {
       scrollPosition: 0,
       isResearch: false,
+      isScroll: false
     }
   },
   methods: {
@@ -31,24 +32,36 @@ export default {
     },
     clickToSearch: function() {
       if (this.isResearch === false){
-        console.log('scrolling down');
+        console.log('scrolling up');
         document.getElementById("toS").click();
         this.isResearch = true;
       }
     },
     clickToLanding: function() {
       if (this.isResearch === true){
-        console.log('scrolling up');
+        console.log('scrolling down');
         document.getElementById("toL").click();
         this.isResearch = false;
       }
+    },
+    mouseOver: function(e) {
+      let idName = e.target.id;
+      if (idName !== "search"){
+        // Enter map, disable app scroll
+        document.getElementById("app").removeEventListener('wheel', this.handleScroll);
+      }
+      else{
+        document.getElementById("app").addEventListener('wheel', this.handleScroll);
+      }
     }
   },
-  created () {
-    window.addEventListener('wheel', this.handleScroll);
+  mounted () {
+    document.getElementById("app").addEventListener('wheel', this.handleScroll);
+    document.getElementById("search").addEventListener('mouseover', this.mouseOver);
   },
   destroyed () {
-    window.removeEventListener('wheel', this.handleScroll);
+    document.getElementById("app").removeEventListener('wheel', this.handleScroll);
+    document.getElementById("search").removeEventListener('mouseover', this.mouseOver);
   },
   components: {
     Landing,

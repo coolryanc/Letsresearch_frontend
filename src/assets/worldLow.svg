@@ -11,6 +11,12 @@
 				stroke-opacity: 1;
 				stroke-width:0.8;
 				position: relative;
+				transition: 0.5s;
+			}
+			.land:hover 
+			{
+				fill: #222222;
+				transform: translate(-3px,-3px)
 			}
 			svg
 			{
