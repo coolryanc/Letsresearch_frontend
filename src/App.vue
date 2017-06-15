@@ -32,14 +32,14 @@ export default {
     },
     clickToSearch: function() {
       if (this.isResearch === false){
-        console.log('scrolling up');
+        // console.log('scrolling up');
         document.getElementById("toS").click();
         this.isResearch = true;
       }
     },
     clickToLanding: function() {
       if (this.isResearch === true){
-        console.log('scrolling down');
+        // console.log('scrolling down');
         document.getElementById("toL").click();
         this.isResearch = false;
       }

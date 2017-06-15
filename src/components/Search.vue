@@ -2,14 +2,11 @@
   #search(href="#landing" v-smooth-scroll="{ duration: 1000 }")
     Worldmap
     .content
-      .introduce-text0 Over <b>10000</b> professors in <b>250</b> collages
+      .introduce-text0 Over <b>10000</b> professors in <b>Top 100</b> colleges
       .introduce-text1 The <b>largest database</b> of Research Domain
-      .search-holder
-        form
-        .awesomplete
-         input(placeholder="Search Domain" v-model="searchString" type="text")
-         .button
-      .ff {{searchString}}
+      .awesomplete
+       input(placeholder="Search Domain" v-model="searchString" name="searchString" type="text" @keyup.enter="submit()")
+       .button
 </template>
 
 <script>
@@ -21,12 +18,20 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      searchString: ''
+      searchString: '',
     }
   },
   components: {
     Worldmap
   },
+  methods: {
+    submit () {
+      console.log(this.searchString);
+      this.$http.get('http://localhost:3001/submit-data?searchString=' + this.searchString).then(function (response) {
+                    console.log(response);
+                });
+    }
+  }
 }
 </script>
 
@@ -44,64 +49,50 @@ export default {
 #worldmap
   position: absolute
   right: 0
-  // bottom: 3%
 
 .content
-  width: 100%
-  height: 50%
-  padding: 2em 5em
+  position: absolute
+  top: 30px
+  width: 30%
   box-sizing: border-box
-  max-width: 64em
-  margin: auto
   font-family: 'Nunito', sans-serif
   display: flex
-  // justify-content: center
   flex-direction: column
   align-items: center
   text-align: center
 .introduce-text0
-  // +center
-  // top: 30%
   font-size: 1.6em
   color: #FFF
   b
-     color: #FF7058
+    color: #FF7058
 .introduce-text1
-  // +center
-  // top: 38%
   color: #FFF
   font-size: 1em
   b
     color: #FF7058
 
-
-.search-holder
-  width: 100%
-  height: 80px
-
 .awesomplete
-  width: 100%
-  height: 100%
-
-
-.awesomplete input
-  +center
-  width: 50%
-  border-radius: 10px
-  display: block
-  padding: 0.8em 3em 0.8em 0.8em
-  font-size: 1.4em
-  border: none
-  &:focus
-    outline: none
+  width: 80%
+  margin: 15px auto 0 auto
+  input
+    width: 90%
+    min-width: 200px
+    border-radius: 10px
+    padding: 0.8em
+    font-size: 1.4em
+    border: none
+    &:focus
+      outline: none
+      color: #444
 
 .button
-  +center
-  left: 75%
+  position: absolute
+  top: 50%
+  transform: translateY(-50%)
+  right: 3%
   width: 30px
   height: 30px
   background-image: url('../assets/search.svg')
   background-repeat: no-repeat
-  font-size: 2em
->>>>>>> cdf6904d470d0c4e2c2fb677dc15bc3ee8d3b165
+
 </style>

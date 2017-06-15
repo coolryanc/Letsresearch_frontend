@@ -11,18 +11,31 @@ export default {
   name: 'worldmap',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      map: "",
+      addressJson: ""
     }
   },
-  mounted() {
+  mounted () {
     var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
     mapboxgl.accessToken = 'pk.eyJ1IjoieXVhbm5uIiwiYSI6ImNqM3R2dDZuYzAxbjQycG82NjExaWtiaG0ifQ.HY_IKgp-eD6ER5J7rJFKBQ';
-    var map = new mapboxgl.Map({
+    this.map = new mapboxgl.Map({
       container: 'worldmap',
-      style: 'mapbox://styles/yuannn/cj3twn3b800232rnhsgboa8ix'
+      style: 'mapbox://styles/yuannn/cj3twn3b800232rnhsgboa8ix',
+      center: [180, 39], // starting position
+      zoom: 2 // starting zoom
     });
+    this.$http.get('http://localhost:3001/api/test').then(function (response) {
+                    this.addressJson = response;
+                }, function (response) {
+                    console.log('error');
+                });
+  }, // End mounted
+  computed: {
+    markUniversity () {
 
-  },
+    }
+  }
 }
 
 </script>
@@ -39,17 +52,6 @@ export default {
   // background-color: white
   box-shadow: 0 10px 10px 2px rgba(black, 0.5)
   overflow: hidden
-
-svg
-  // background-color: #222
-  &:active
-    cursor: grab
-  &:hover
-  .country
-    stroke: white
-    stroke-width: 10px
-
-
 
 
 </style>
