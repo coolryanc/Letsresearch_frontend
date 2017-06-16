@@ -3,7 +3,7 @@
     Landing
     Search
     a(id="toS" href="#search" v-smooth-scroll="{ duration: 1000 }" )
-    a(id="toL" href="#landing" v-smooth-scroll="{ duration: 1000 }")
+    a(id="toL" href="#landing" v-smooth-scroll="{ duration: 1000 }" )
     //- router-view
 </template>
 
@@ -23,45 +23,35 @@ export default {
   },
   methods: {
     handleScroll: function(e) {
-      if (e.deltaY < 0) {
-        this.clickToLanding();
-      }
-      else if (e.deltaY > 0) {
+      if (e.deltaY > 0) {
         this.clickToSearch();
       }
     },
     clickToSearch: function() {
-      if (this.isResearch === false){
         // console.log('scrolling up');
         document.getElementById("toS").click();
-        this.isResearch = true;
-      }
+        setTimeout(function(){
+          document.getElementById("search").style.position = "fixed";
+          document.getElementById("search").style.top = "0";
+        }, 1000);
     },
     clickToLanding: function() {
-      if (this.isResearch === true){
-        // console.log('scrolling down');
+        // console.log('scrolling up');
+        console.log(document.getElementById("landing").offsetHeight);
+        document.getElementById("search").style.position = "relative";
+        window.scrollTo(0,document.getElementById("landing").offsetHeight);
+        // document.getElementById("search").style.top = "";
         document.getElementById("toL").click();
-        this.isResearch = false;
-      }
-    },
-    mouseOver: function(e) {
-      let idName = e.target.id;
-      if (idName !== "search"){
-        // Enter map, disable app scroll
-        document.getElementById("app").removeEventListener('wheel', this.handleScroll);
-      }
-      else{
-        document.getElementById("app").addEventListener('wheel', this.handleScroll);
-      }
     }
+
   },
   mounted () {
-    document.getElementById("app").addEventListener('wheel', this.handleScroll);
-    document.getElementById("search").addEventListener('mouseover', this.mouseOver);
+    document.getElementById("landing").addEventListener('wheel', this.handleScroll);
+    document.getElementById("backL").addEventListener('click', this.clickToLanding);
   },
   destroyed () {
-    document.getElementById("app").removeEventListener('wheel', this.handleScroll);
-    document.getElementById("search").removeEventListener('mouseover', this.mouseOver);
+    document.getElementById("landing").removeEventListener('wheel', this.handleScroll);
+    document.getElementById("backL").removeEventListener('click', this.clickToLanding);
   },
   components: {
     Landing,

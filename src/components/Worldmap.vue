@@ -13,7 +13,6 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       map: "",
-      addressJson: ""
     }
   },
   mounted () {
@@ -25,11 +24,6 @@ export default {
       center: [180, 39], // starting position
       zoom: 2 // starting zoom
     });
-    this.$http.get('http://localhost:3001/api/test').then(function (response) {
-                    this.addressJson = response;
-                }, function (response) {
-                    console.log('error');
-                });
   }, // End mounted
   computed: {
     markUniversity () {
