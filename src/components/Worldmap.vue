@@ -22,7 +22,7 @@ export default {
       container: 'worldmap',
       style: 'mapbox://styles/yuannn/cj3twn3b800232rnhsgboa8ix',
       center: [180, 39], // starting position
-      zoom: 2 // starting zoom
+      zoom: 1.8 // starting zoom
     });
   }, // End mounted
   computed: {

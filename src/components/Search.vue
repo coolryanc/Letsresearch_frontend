@@ -4,14 +4,14 @@
       #content
         #backL
           .backtext Back to home
-        .introduce-text0 Over <b>10000</b> professors in <b>Top 100</b> colleges
+        .introduce-text0 Over <b>9870</b> professors in <b>Top 100</b> colleges
         .introduce-text1 The <b>largest database</b> of Research Domain
         .awesomplete
          input(placeholder="Search Domain" v-model="searchString" name="searchString" type="text" @keyup.enter="submit()")
          .button
       #resultContain
         .innerContain
-          //- Resultcube(v-for="schoolItem in schoolInfo" v-bind:data="schoolItem" v-bind:key="schoolItem.text" :schoolData="schoolItem")
+          Resultcube(v-for="schoolItem in schoolInfo" v-bind:data="schoolItem" v-bind:key="schoolItem.text" :schoolData="schoolItem")
     Worldmap
 </template>
 
@@ -74,15 +74,29 @@ export default {
   align-items: center
   width: 30%
 
+#content
+  display: block
+  padding: 0
+  padding-top: 20px
+  box-sizing: border-box
+  width: 100%
+  height: 190px
+  box-sizing: border-box
+  font-family: 'Nunito', sans-serif
+  display: flex
+  flex-direction: column
+  align-items: center
+  text-align: center
+  justify-content: flex-start
+
 #resultContain
   width: 100%
-  height: 70%
+  height: calc( 100% - 190px )
   overflow: hidden
   .innerContain
     height: 100%
     width: 100%
     overflow: auto
-
 
 #backL
   width: 0
@@ -105,27 +119,16 @@ export default {
     bottom: -20px
     transition: .5s
 
-#content
-  z-index: 999
-  display: block
-  padding: 0
-  width: 100%
-  height: 35%
-  box-sizing: border-box
-  font-family: 'Nunito', sans-serif
-  display: flex
-  flex-direction: column
-  align-items: center
-  text-align: center
-  justify-content: center
 .introduce-text0
   font-size: 1.4em
   color: #FFF
+  margin-bottom: 5px
   b
     color: #FF7058
 .introduce-text1
   color: #FFF
-  font-size: 1em
+  font-size: 1.1em
+  margin-bottom: 5px
   b
     color: #FF7058
 
