@@ -31,8 +31,10 @@ export default {
 .resultCube
   width: 100%
   height: 200px
-  background-color: #999
+  background-color: rgba(#999, 0.5)
   border-bottom: solid 10px #222
+  color: white
+  font-size: 1.5em
 
 
 </style>

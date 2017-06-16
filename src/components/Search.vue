@@ -10,7 +10,8 @@
          input(placeholder="Search Domain" v-model="searchString" name="searchString" type="text" @keyup.enter="submit()")
          .button
       #resultContain
-        Resultcube(v-for="schoolItem in schoolInfo" v-bind:data="schoolItem" v-bind:key="schoolItem.text" :schoolData="schoolItem")
+        .innerContain
+          //- Resultcube(v-for="schoolItem in schoolInfo" v-bind:data="schoolItem" v-bind:key="schoolItem.text" :schoolData="schoolItem")
     Worldmap
 </template>
 
@@ -76,9 +77,12 @@ export default {
 #resultContain
   width: 100%
   height: 70%
-  // overflow: scroll
-  overflow-y: scroll
-  pointer-events: unset
+  overflow: hidden
+  .innerContain
+    height: 100%
+    width: 100%
+    overflow: auto
+
 
 #backL
   width: 0
