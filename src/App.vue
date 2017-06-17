@@ -1,6 +1,6 @@
 <template lang="pug">
   #app( @scroll="handleScroll" )
-    //- Landing
+    Landing
     Search
     a(id="toS" href="#search" v-smooth-scroll="{ duration: 1000 }" )
     a(id="toL" href="#landing" v-smooth-scroll="{ duration: 1000 }" )
@@ -37,7 +37,6 @@ export default {
     },
     clickToLanding: function() {
         // console.log('scrolling up');
-        console.log(document.getElementById("landing").offsetHeight);
         document.getElementById("search").style.position = "relative";
         window.scrollTo(0,document.getElementById("landing").offsetHeight);
         // document.getElementById("search").style.top = "";

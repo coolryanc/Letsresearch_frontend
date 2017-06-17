@@ -7,10 +7,10 @@
         .introduce-text0 Over <b>9870</b> professors in <b>Top 100</b> colleges
         .introduce-text1 The <b>largest database</b> of Research Domain
         .awesomplete
-         input(placeholder="Search Domain" v-model="searchString" name="searchString" type="text" @keyup.enter="submit()")
+         input(placeholder="Search Domain" v-model="searchString" name="searchString" type="text" @keyup.enter="submit()" @keyup.down="choose()")
          .button
         .keyContain
-          .keyList(v-for="(word,index) in filteredKeywords" v-if="index < 11 && searchString" ) {{word}}
+          .keyList(v-for="(word,index) in filteredKeywords" v-if="index < 11 && searchString") {{word}}
         .result-text(v-if="resultString") Result about <b>"{{resultString}}"</b>
       #resultContain
         .innerContain
@@ -31,7 +31,8 @@ export default {
       searchString: '',
       resultString: '',
       schoolInfo: '',
-      keywords: 'null'
+      keywords: 'null',
+      keywordsIndex: 0
     }
   },
   mounted () {
@@ -58,6 +59,25 @@ export default {
                                     console.log('error');
                                 });
                 });
+    },
+    choose () {
+      let chooseArray = document.getElementsByClassName("keyList");
+      if (chooseArray) {
+        this.keywordsIndex += 1;
+        console.log(chooseArray[this.keywordsIndex].classList.contains("keyList"));
+        for (let key in chooseArray){
+          if ( key == this.keywordsIndex){
+            if (!chooseArray[key].classList.contains("choosekey")){
+              chooseArray[key].classList.add('choosekey');
+            }
+          }
+          else{
+            if (chooseArray[key].classList.contains("choosekey")){
+              chooseArray[key].classList.remove('choosekey');
+            }
+          }
+        }
+      }
     }
   },
   computed: {
@@ -205,7 +225,8 @@ export default {
     &:hover
       background-color: rgba($secondary-color,0.8)
       color: #FFF
-  .keyList:nth-child(1)
+
+  .choosekey
     background-color: rgba($secondary-color,0.8)
     color: #FFF
 
@@ -216,6 +237,7 @@ export default {
   font-size: 1.2em
   white-space: nowrap
   b
+    font-size: 1.3em
     color: #FF7058
 
 </style>
