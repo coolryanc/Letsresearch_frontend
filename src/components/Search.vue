@@ -37,7 +37,6 @@ export default {
   },
   mounted () {
     this.$http.get('http://localhost:3001/api/keywords').then(function (response) {
-                    console.log(response);
                     this.keywords = response.body;
                 }, function (response) {
                     console.log('error');
