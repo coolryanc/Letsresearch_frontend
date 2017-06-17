@@ -37,6 +37,7 @@ export default {
   },
   mounted () {
     this.$http.get('http://localhost:3001/api/keywords').then(function (response) {
+                    console.log(response);
                     this.keywords = response.body;
                 }, function (response) {
                     console.log('error');
@@ -48,6 +49,8 @@ export default {
   },
   methods: {
     submit () {
+      var input = document.getElementById("schools");
+      this.searchString = input.value;
       console.log(this.searchString);
       this.$http.get('http://localhost:3001/submit-data?searchString=' + this.searchString).then(function (response) {
                     // console.log(response);
@@ -183,11 +186,10 @@ export default {
     color: #FF7058
 
 .awesomplete
-  width: 80%
+  width: 100%
   margin: 5px auto 0 auto
   input
-    width: 90%
-    min-width: 200px
+    width: 300px
     border-radius: 10px
     padding: 0.8em
     font-size: 1.4em
@@ -200,7 +202,7 @@ export default {
   position: absolute
   top: 50%
   transform: translateY(-50%)
-  right: 3%
+  right: 15%
   width: 30px
   height: 30px
   background-image: url('../assets/search.svg')
