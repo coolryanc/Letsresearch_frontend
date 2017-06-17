@@ -55,7 +55,9 @@ export default {
   methods: {
     submit () {
       var input = document.getElementsByClassName("keyList");
-      this.searchString = input[this.keywordsIndex].innerHTML;
+      if (this.keywordsIndex != -1) {
+          this.searchString = input[this.keywordsIndex].innerHTML;
+      }
       this.resultString = this.searchString;
       this.$http.get('http://localhost:3001/submit-data?searchString=' + this.searchString).then(function (response) {
                     this.searchString = "";
@@ -73,9 +75,8 @@ export default {
           event === 'down' ? this.keywordsIndex += 1 : this.keywordsIndex -= 1;
         if(this.keywordsIndex <= -1)
           this.keywordsIndex = 0;
-        if(this.keywordsIndex > chooseArray.length)
+        if(this.keywordsIndex >= chooseArray.length)
           this.keywordsIndex = 0;
-        console.log(this.keywordsIndex);
         for (var i = 0; i < chooseArray.length; i++){
           if (i == this.keywordsIndex){
               chooseArray[i].classList.add('choosekey');
@@ -206,7 +207,7 @@ export default {
   position: absolute
   top: 50%
   transform: translateY(-50%)
-  right: 15%
+  right: 10%
   width: 30px
   height: 30px
   background-image: url('../assets/search.svg')
@@ -237,10 +238,10 @@ export default {
   +center
   top: 90%
   color: white
-  font-size: 1.2em
+  // font-size: 1.1em
   white-space: nowrap
   b
-    font-size: 1.3em
+    font-size: 1.1em
     color: #FF7058
 
 </style>
