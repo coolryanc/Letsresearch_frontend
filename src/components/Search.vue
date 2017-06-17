@@ -49,9 +49,6 @@ export default {
   },
   methods: {
     submit () {
-      var input = document.getElementById("schools");
-      this.searchString = input.value;
-      console.log(this.searchString);
       this.$http.get('http://localhost:3001/submit-data?searchString=' + this.searchString).then(function (response) {
                     // console.log(response);
                     this.resultString = this.searchString;
@@ -67,6 +64,7 @@ export default {
       let chooseArray = document.getElementsByClassName("keyList");
       if (chooseArray) {
         this.keywordsIndex += 1;
+        console.log(this.keywordsIndex);
         console.log(chooseArray[this.keywordsIndex].classList.contains("keyList"));
         for (let key in chooseArray){
           if ( key == this.keywordsIndex){
@@ -187,9 +185,9 @@ export default {
 
 .awesomplete
   width: 100%
-  margin: 5px auto 0 auto
   input
-    width: 300px
+    margin: 5px auto 0 auto
+    width: 80%
     border-radius: 10px
     padding: 0.8em
     font-size: 1.4em
@@ -211,16 +209,13 @@ export default {
 .keyContain
   z-index: 999
   background-color: white
-  margin-top: 10px
-  width: 72%
-  // height: 500px
-  // overflow: auto
+  margin-top: 1px
+  width: 80%
   .keyList
     width: 100%
     padding: 16px 3px
     box-sizing: border-box
     background-color: white
-    // box-shadow: 0 2px 1px 1px rgba(black, 0.5)
     border-bottom: solid 2px rgba(black, 0.2)
     transition: 0.2s
     cursor: pointer
