@@ -10,7 +10,7 @@
          input(placeholder="Search Domain" v-model="searchString" name="searchString" type="text" @keyup.enter="submit()" @keyup.down="choose('down')" @keyup.up="choose('up')")
          .button
         .keyContain
-          .keyList(v-for="(word,index) in filteredKeywords" v-if="index < 11 && searchString") {{word}}
+          .keyList(v-for="(word,index) in filteredKeywords" v-if="index < 5 && searchString") {{word}}
         .result-text(v-if="resultString") Result about <b>"{{resultString}}"</b>
       #resultContain
         .innerContain
@@ -32,7 +32,7 @@ export default {
       resultString: '',
       schoolInfo: '',
       keywords: 'null',
-      keywordsIndex: 0
+      keywordsIndex: -1
     }
   },
   mounted () {
@@ -47,11 +47,18 @@ export default {
     Worldmap,
     Resultcube
   },
+  watch: {
+    searchString: function(val, oldVal) {
+      this.keywordsIndex = -1;
+    }
+  },
   methods: {
     submit () {
+      var input = document.getElementsByClassName("keyList");
+      this.searchString = input[this.keywordsIndex].innerHTML;
+      this.resultString = this.searchString;
       this.$http.get('http://localhost:3001/submit-data?searchString=' + this.searchString).then(function (response) {
-                    var input = document.getElementsByClassName("keyList");
-                    this.searchString = input[this.keywordsIndex].innerHTML;
+                    this.searchString = "";
                     this.$http.get('http://localhost:3001/api/test').then(function (response) {
                                     this.schoolInfo = response.body;
                                 }, function (response) {
@@ -62,8 +69,14 @@ export default {
     choose (event) {
       let chooseArray = document.getElementsByClassName("keyList");
       if (chooseArray) {
-        event === 'down' ? this.keywordsIndex += 1 : this.keywordsIndex -= 1;
-        for (var i = 0; i < chooseArray.length - 1; i++){
+        if(this.keywordsIndex >= -1)
+          event === 'down' ? this.keywordsIndex += 1 : this.keywordsIndex -= 1;
+        if(this.keywordsIndex <= -1)
+          this.keywordsIndex = 0;
+        if(this.keywordsIndex > chooseArray.length)
+          this.keywordsIndex = 0;
+        console.log(this.keywordsIndex);
+        for (var i = 0; i < chooseArray.length; i++){
           if (i == this.keywordsIndex){
               chooseArray[i].classList.add('choosekey');
           }
