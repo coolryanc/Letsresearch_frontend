@@ -7,7 +7,7 @@
         .introduce-text0 Over <b>9870</b> professors in <b>Top 100</b> colleges
         .introduce-text1 The <b>largest database</b> of Research Domain
         .awesomplete
-         input(placeholder="Search Domain" v-model="searchString" name="searchString" type="text" @keyup.enter="submit()")
+         input(id="schools" placeholder="Search Domain" name="searchString" type="text" @keyup.enter = "submit()")
          .button
         .keyContain
           .keyList(v-for="(word,index) in filteredKeywords" v-if="index < 11 && searchString" ) {{word}}
@@ -36,7 +36,16 @@ export default {
   },
   mounted () {
     this.$http.get('http://localhost:3001/api/keywords').then(function (response) {
-                    this.keywords = response.body;
+                    console.log(response);
+                    this.keywords = response.bodyText;
+                    console.log(this.keywords);
+                    var input = document.getElementById("schools");
+                    var awesomplete = new Awesomplete(input, {
+                      minChars: 1, 
+                      autoFirst: true,
+                      maxItems: 5
+                    });
+                    awesomplete.list = this.keywords;
                 }, function (response) {
                     console.log('error');
                 });
@@ -47,6 +56,8 @@ export default {
   },
   methods: {
     submit () {
+      var input = document.getElementById("schools");
+      this.searchString = input.value; 
       console.log(this.searchString);
       this.$http.get('http://localhost:3001/submit-data?searchString=' + this.searchString).then(function (response) {
                     // console.log(response);
@@ -58,25 +69,25 @@ export default {
                                     console.log('error');
                                 });
                 });
-    }
+    },
   },
   computed: {
-    filteredKeywords () {
-      let keywords_array = this.keywords,
-          searchString = this.searchString;
+    // filteredKeywords () {
+    //   let keywords_array = this.keywords,
+    //       searchString = this.searchString;
 
-      if(!searchString){
-          return keywords_array;
-      }
-      searchString = searchString.trim().toLowerCase();
-      keywords_array = keywords_array.filter(function(item){
-          if(item.toLowerCase().indexOf(searchString) !== -1){
-              return item;
-          }
-      })
-      // Return an array with the filtered data.
-      return keywords_array;
-    }
+    //   if(!searchString){
+    //       return keywords_array;
+    //   }
+    //   searchString = searchString.trim().toLowerCase();
+    //   keywords_array = keywords_array.filter(function(item){
+    //       if(item.toLowerCase().indexOf(searchString) !== -1){
+    //           return item;
+    //       }
+    //   })
+    //   // Return an array with the filtered data.
+    //   return keywords_array;
+    // }
   }
 }
 </script>
@@ -163,11 +174,10 @@ export default {
     color: #FF7058
 
 .awesomplete
-  width: 80%
+  width: 100%
   margin: 5px auto 0 auto
   input
-    width: 90%
-    min-width: 200px
+    width: 300px
     border-radius: 10px
     padding: 0.8em
     font-size: 1.4em
@@ -180,7 +190,7 @@ export default {
   position: absolute
   top: 50%
   transform: translateY(-50%)
-  right: 3%
+  right: 15%
   width: 30px
   height: 30px
   background-image: url('../assets/search.svg')
