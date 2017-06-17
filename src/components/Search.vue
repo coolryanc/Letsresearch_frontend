@@ -9,8 +9,9 @@
         .awesomplete
          input(placeholder="Search Domain" v-model="searchString" name="searchString" type="text" @keyup.enter="submit()")
          .button
-        .ketContain
+        .keyContain
           .keyList(v-for="(word,index) in filteredKeywords" v-if="index < 11 && searchString" ) {{word}}
+        .result-text(v-if="resultString") Result about <b>"{{resultString}}"</b>
       #resultContain
         .innerContain
           Resultcube(v-for="schoolItem in schoolInfo" v-bind:data="schoolItem" v-bind:key="schoolItem.text" :schoolData="schoolItem")
@@ -28,6 +29,7 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       searchString: '',
+      resultString: '',
       schoolInfo: '',
       keywords: 'null'
     }
@@ -48,6 +50,8 @@ export default {
       console.log(this.searchString);
       this.$http.get('http://localhost:3001/submit-data?searchString=' + this.searchString).then(function (response) {
                     // console.log(response);
+                    this.resultString = this.searchString;
+                    this.searchString = "";
                     this.$http.get('http://localhost:3001/api/test').then(function (response) {
                                     this.schoolInfo = response.body;
                                 }, function (response) {
@@ -152,8 +156,8 @@ export default {
   b
     color: #FF7058
 .introduce-text1
-  color: #FFF
   font-size: 1.1em
+  color: #FFF
   margin-bottom: 5px
   b
     color: #FF7058
@@ -182,7 +186,7 @@ export default {
   background-image: url('../assets/search.svg')
   background-repeat: no-repeat
 
-.ketContain
+.keyContain
   z-index: 999
   background-color: white
   margin-top: 10px
@@ -200,7 +204,18 @@ export default {
     cursor: pointer
     &:hover
       background-color: rgba($secondary-color,0.8)
+      color: #FFF
   .keyList:nth-child(1)
     background-color: rgba($secondary-color,0.8)
+    color: #FFF
+
+.result-text
+  +center
+  top: 90%
+  color: white
+  font-size: 1.2em
+  white-space: nowrap
+  b
+    color: #FF7058
 
 </style>
