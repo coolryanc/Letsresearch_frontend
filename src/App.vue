@@ -1,6 +1,6 @@
 <template lang="pug">
   #app( @scroll="handleScroll" )
-    Landing
+    //- Landing
     Search
     a(id="toS" href="#search" v-smooth-scroll="{ duration: 1000 }" )
     a(id="toL" href="#landing" v-smooth-scroll="{ duration: 1000 }" )

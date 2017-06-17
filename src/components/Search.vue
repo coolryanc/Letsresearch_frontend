@@ -9,6 +9,8 @@
         .awesomplete
          input(placeholder="Search Domain" v-model="searchString" name="searchString" type="text" @keyup.enter="submit()")
          .button
+        .ketContain
+          .keyList(v-for="(word,index) in filteredKeywords" v-if="index < 11 && searchString" ) {{word}}
       #resultContain
         .innerContain
           Resultcube(v-for="schoolItem in schoolInfo" v-bind:data="schoolItem" v-bind:key="schoolItem.text" :schoolData="schoolItem")
@@ -26,12 +28,13 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       searchString: '',
-      schoolInfo: ''
+      schoolInfo: '',
+      keywords: 'null'
     }
   },
   mounted () {
-    this.$http.get('http://localhost:3001/api/test').then(function (response) {
-                    this.schoolInfo = response.body;
+    this.$http.get('http://localhost:3001/api/keywords').then(function (response) {
+                    this.keywords = response.body;
                 }, function (response) {
                     console.log('error');
                 });
@@ -44,8 +47,31 @@ export default {
     submit () {
       console.log(this.searchString);
       this.$http.get('http://localhost:3001/submit-data?searchString=' + this.searchString).then(function (response) {
-                    console.log(response);
+                    // console.log(response);
+                    this.$http.get('http://localhost:3001/api/test').then(function (response) {
+                                    this.schoolInfo = response.body;
+                                }, function (response) {
+                                    console.log('error');
+                                });
                 });
+    }
+  },
+  computed: {
+    filteredKeywords () {
+      let keywords_array = this.keywords,
+          searchString = this.searchString;
+
+      if(!searchString){
+          return keywords_array;
+      }
+      searchString = searchString.trim().toLowerCase();
+      keywords_array = keywords_array.filter(function(item){
+          if(item.toLowerCase().indexOf(searchString) !== -1){
+              return item;
+          }
+      })
+      // Return an array with the filtered data.
+      return keywords_array;
     }
   }
 }
@@ -80,7 +106,7 @@ export default {
   padding-top: 20px
   box-sizing: border-box
   width: 100%
-  height: 190px
+  height: 240px
   box-sizing: border-box
   font-family: 'Nunito', sans-serif
   display: flex
@@ -91,7 +117,7 @@ export default {
 
 #resultContain
   width: 100%
-  height: calc( 100% - 190px )
+  height: calc( 100% - 240px )
   overflow: hidden
   .innerContain
     height: 100%
@@ -155,5 +181,26 @@ export default {
   height: 30px
   background-image: url('../assets/search.svg')
   background-repeat: no-repeat
+
+.ketContain
+  z-index: 999
+  background-color: white
+  margin-top: 10px
+  width: 72%
+  // height: 500px
+  // overflow: auto
+  .keyList
+    width: 100%
+    padding: 16px 3px
+    box-sizing: border-box
+    background-color: white
+    // box-shadow: 0 2px 1px 1px rgba(black, 0.5)
+    border-bottom: solid 2px rgba(black, 0.2)
+    transition: 0.2s
+    cursor: pointer
+    &:hover
+      background-color: rgba($secondary-color,0.8)
+  .keyList:nth-child(1)
+    background-color: rgba($secondary-color,0.8)
 
 </style>

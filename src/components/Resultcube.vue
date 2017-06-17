@@ -1,6 +1,6 @@
 <template lang="pug">
   .resultCube
-    .schoolTile {{schoolData.schoolName}}
+    .schoolTile {{schoolData.institution}}
 </template>
 
 <script>
