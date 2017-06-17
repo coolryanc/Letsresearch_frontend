@@ -7,7 +7,7 @@
         .introduce-text0 Over <b>9870</b> professors in <b>Top 100</b> colleges
         .introduce-text1 The <b>largest database</b> of Research Domain
         .awesomplete
-         input(placeholder="Search Domain" v-model="searchString" name="searchString" type="text" @keyup.enter="submit()" @keyup.down="choose()")
+         input(placeholder="Search Domain" v-model="searchString" name="searchString" type="text" @keyup.enter="submit()" @keyup.down="choose('down')" @keyup.up="choose('up')")
          .button
         .keyContain
           .keyList(v-for="(word,index) in filteredKeywords" v-if="index < 11 && searchString") {{word}}
@@ -50,9 +50,8 @@ export default {
   methods: {
     submit () {
       this.$http.get('http://localhost:3001/submit-data?searchString=' + this.searchString).then(function (response) {
-                    // console.log(response);
-                    this.resultString = this.searchString;
-                    this.searchString = "";
+                    var input = document.getElementsByClassName("keyList");
+                    this.searchString = input[this.keywordsIndex].innerHTML;
                     this.$http.get('http://localhost:3001/api/test').then(function (response) {
                                     this.schoolInfo = response.body;
                                 }, function (response) {
@@ -60,22 +59,16 @@ export default {
                                 });
                 });
     },
-    choose () {
+    choose (event) {
       let chooseArray = document.getElementsByClassName("keyList");
       if (chooseArray) {
-        this.keywordsIndex += 1;
-        console.log(this.keywordsIndex);
-        console.log(chooseArray[this.keywordsIndex].classList.contains("keyList"));
-        for (let key in chooseArray){
-          if ( key == this.keywordsIndex){
-            if (!chooseArray[key].classList.contains("choosekey")){
-              chooseArray[key].classList.add('choosekey');
-            }
+        event === 'down' ? this.keywordsIndex += 1 : this.keywordsIndex -= 1;
+        for (var i = 0; i < chooseArray.length - 1; i++){
+          if (i == this.keywordsIndex){
+              chooseArray[i].classList.add('choosekey');
           }
           else{
-            if (chooseArray[key].classList.contains("choosekey")){
-              chooseArray[key].classList.remove('choosekey');
-            }
+              chooseArray[i].classList.remove('choosekey');
           }
         }
       }
