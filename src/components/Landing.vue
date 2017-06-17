@@ -1,5 +1,5 @@
 <template lang="pug">
-  #landing(href="#search" v-smooth-scroll="{ duration: 1000 }")
+  #landing
     .halfbgc
     .titleContain
       .titleImg
