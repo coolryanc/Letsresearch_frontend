@@ -14,7 +14,7 @@
         .result-text(v-if="resultString") Result about <b>"{{resultString}}"</b>
       #resultContain
         .innerContain
-          Resultcube(v-for="schoolItem in schoolInfo" v-bind:data="schoolItem" v-bind:key="schoolItem.text" :schoolData="schoolItem")
+          Resultcube(v-for="(schoolItem, index) in schoolInfo" v-bind:data="schoolItem" v-bind:key="schoolItem.text" :schoolData="schoolItem") {{index}}
     Worldmap
 </template>
 
@@ -32,12 +32,12 @@ export default {
       resultString: '',
       schoolInfo: '',
       keywords: 'null',
-      keywordsIndex: -1
+      keywordsIndex: -1,
+      // markArray: {}
     }
   },
   mounted () {
     this.$http.get('http://localhost:3001/api/keywords').then(function (response) {
-                    console.log(response);
                     this.keywords = response.body;
                 }, function (response) {
                     console.log('error');
@@ -66,6 +66,11 @@ export default {
                                 }, function (response) {
                                     console.log('error');
                                 });
+                    // this.$http.get('http://localhost:3001/api/map').then(function (response) {
+                    //                 this.markArray = response.body;
+                    //             }, function (response) {
+                    //                 console.log('error');
+                    //             });
                 });
     },
     choose (event) {
@@ -153,8 +158,9 @@ export default {
   overflow: hidden
   .innerContain
     height: 100%
-    width: 100%
-    overflow: auto
+    width: calc( 17px + 100% )
+    overflow-y: scroll
+    padding-right: 17px
 
 #backL
   width: 0

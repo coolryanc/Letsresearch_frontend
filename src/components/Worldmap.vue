@@ -9,9 +9,11 @@
 
 export default {
   name: 'worldmap',
+  props: {
+    markGeoJson: Object
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       map: "",
     }
   },
@@ -24,12 +26,35 @@ export default {
       center: [180, 39], // starting position
       zoom: 1.8 // starting zoom
     });
+    this.map.on('load', () => {
+        // window.setInterval(function() {
+        //     // this.map.getSource('points').setData('http://localhost:3001/api/map');
+        //     // console.log('hi');
+        // }, 2000);
+        this.map.addSource('points', { type: 'geojson', data: 'http://localhost:3001/api/map' });
+        this.map.addLayer({
+          "id": "points",
+          "type": "symbol",
+          "source": "points",
+          "layout": {
+            "icon-image": "{icon}-15",
+             "text-field": "{title}",
+             "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+             "text-offset": [0, 0.6],
+             "text-anchor": "top"
+          }
+        });
+        let mapObj = this.map;
+        window.setInterval(function(){
+          mapObj.getSource('points').setData('http://localhost:3001/api/map');
+        }, 500);
+    });
   }, // End mounted
-  computed: {
-    markUniversity () {
-
+  watch: {
+    markGeoJson: function() {
+      console.log('markGeoJson change......!');
     }
-  }
+  }, // End watch
 }
 
 </script>
