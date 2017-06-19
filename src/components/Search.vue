@@ -14,7 +14,7 @@
         .result-text(v-if="resultString") Result about <b>"{{resultString}}"</b>
       #resultContain
         .innerContain
-          Resultcube(v-for="schoolItem in schoolInfo" v-bind:data="schoolItem" v-bind:key="schoolItem.text" :schoolData="schoolItem")
+          Resultcube(v-for="(schoolItem, index) in schoolInfo" v-bind:data="schoolItem" v-bind:key="schoolItem.text" :schoolData="schoolItem") {{index}}
     Worldmap
 </template>
 
@@ -32,7 +32,8 @@ export default {
       resultString: '',
       schoolInfo: '',
       keywords: 'null',
-      keywordsIndex: -1
+      keywordsIndex: -1,
+      // markArray: {}
     }
   },
   mounted () {
@@ -152,8 +153,9 @@ export default {
   overflow: hidden
   .innerContain
     height: 100%
-    width: 100%
-    overflow: auto
+    width: calc( 17px + 100% )
+    overflow-y: scroll
+    padding-right: 17px
 
 #backL
   width: 0
@@ -240,7 +242,7 @@ export default {
   // font-size: 1.1em
   white-space: nowrap
   b
-    font-size: 1.1em
+    font-size: 1.5em
     color: #FF7058
 
 </style>
