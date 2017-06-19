@@ -66,11 +66,6 @@ export default {
                                 }, function (response) {
                                     console.log('error');
                                 });
-                    // this.$http.get('http://localhost:3001/api/map').then(function (response) {
-                    //                 this.markArray = response.body;
-                    //             }, function (response) {
-                    //                 console.log('error');
-                    //             });
                 });
     },
     choose (event) {
@@ -247,7 +242,7 @@ export default {
   // font-size: 1.1em
   white-space: nowrap
   b
-    font-size: 1.1em
+    font-size: 1.5em
     color: #FF7058
 
 </style>
