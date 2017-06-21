@@ -10,15 +10,17 @@
 export default {
   name: 'worldmap',
   props: {
-    markGeoJson: Object
+    flyLatLong: Array,
   },
   data () {
     return {
       map: "",
-      popup: ""
+      popup: "",
     }
   },
   mounted () {
+    const vm = this;
+    const MAPAPI = 'http://localhost:3001/api/map';
     var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
     mapboxgl.accessToken = 'pk.eyJ1IjoieXVhbm5uIiwiYSI6ImNqM3R2dDZuYzAxbjQycG82NjExaWtiaG0ifQ.HY_IKgp-eD6ER5J7rJFKBQ';
     this.popup = new mapboxgl.Popup({
@@ -34,7 +36,6 @@ export default {
       dragRotate : false
     });
     this.map.on('load', () => {
-        let MAPAPI = 'http://localhost:3001/api/map';
         this.map.addSource('points', { type: 'geojson', data: MAPAPI});
         this.map.addLayer({
           "id": "points",
@@ -77,6 +78,20 @@ export default {
         popupObj.remove();
     });
   }, // End mounted
+  methods: {
+     flyToStore (coordinates, scale) {
+         this.map.flyTo({
+          center: coordinates,
+          zoom: scale,
+          speed: 2
+        });
+      }
+  }, // End methods
+  watch: {
+    flyLatLong: function () {
+      this.flyToStore([this.flyLatLong[1],this.flyLatLong[0]], this.flyLatLong[2]);
+    }
+  }
 }
 
 </script>

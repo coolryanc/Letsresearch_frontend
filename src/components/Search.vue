@@ -14,8 +14,9 @@
         .result-text(v-if="resultString") Result about <b>"{{resultString}}"</b>
       #resultContain
         .innerContain
-          Resultcube(v-for="(schoolItem, index) in schoolInfo" v-bind:data="schoolItem" v-bind:key="schoolItem.text" :schoolData="schoolItem") {{index}}
-    Worldmap
+          .load(v-if="isload")
+          Resultcube(v-for="(schoolItem, index) in schoolInfo" v-bind:data="schoolItem" v-bind:key="schoolItem.text" :schoolData="schoolItem" @fly="sendlatlong") {{index}}
+    Worldmap(:flyLatLong="flyArray")
 </template>
 
 <script>
@@ -31,9 +32,10 @@ export default {
       searchString: '',
       resultString: '',
       schoolInfo: '',
-      keywords: 'null',
+      keywords: null,
       keywordsIndex: -1,
-      // markArray: {}
+      flyArray: ['180','0'],
+      isload: false
     }
   },
   mounted () {
@@ -53,6 +55,9 @@ export default {
     }
   },
   methods: {
+    sendlatlong (latlong, scale) {
+      this.flyArray = latlong;
+    },
     submit () {
       var input = document.getElementsByClassName("keyList");
       if (this.keywordsIndex != -1) {
@@ -61,7 +66,10 @@ export default {
       this.resultString = this.searchString;
       this.$http.get('http://localhost:3001/submit-data?searchString=' + this.searchString).then(function (response) {
                     this.searchString = "";
-                    this.$http.get('http://localhost:3001/api/test').then(function (response) {
+                    this.schoolInfo = "";
+                    this.isload = true;
+                    this.$http.get('http://localhost:3001/api/result').then(function (response) {
+                                    this.isload = false;
                                     this.schoolInfo = response.body;
                                 }, function (response) {
                                     console.log('error');
@@ -155,7 +163,8 @@ export default {
     height: 100%
     width: calc( 17px + 100% )
     overflow-y: scroll
-    padding-right: 17px
+    overflow-x: hidden
+    // padding-right: 17px
 
 #backL
   width: 0
@@ -244,5 +253,23 @@ export default {
   b
     font-size: 1.5em
     color: #FF7058
+
+.load
+   display: inline-block
+   border-width: 20px
+   border-radius: 50%
+   animation: spin 1s linear infinite
+   border-style: solid
+   border-color: #DCDCDC transparent
+   margin-left: auto
+   margin-right: auto
+   position: absolute
+   top: 35%
+   left: calc( 50% - 17px )
+   transform: tanslate(-50%, -50%)
+
+@keyframes spin
+  100%
+    transform: rotate(359deg)
 
 </style>
