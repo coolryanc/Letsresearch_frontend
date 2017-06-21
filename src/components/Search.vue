@@ -64,16 +64,19 @@ export default {
           this.searchString = input[this.keywordsIndex].innerHTML;
       }
       this.resultString = this.searchString;
-      this.$http.get('http://localhost:3001/submit-data?searchString=' + this.searchString).then(function (response) {
-                    this.searchString = "";
-                    this.schoolInfo = "";
-                    this.isload = true;
-                    this.$http.get('http://localhost:3001/api/result').then(function (response) {
-                                    this.isload = false;
-                                    this.schoolInfo = response.body;
-                                }, function (response) {
-                                    console.log('error');
-                                });
+      let sendquery = this.searchString;
+      this.searchString = "";
+      this.schoolInfo = "";
+      this.isload = true;
+      this.$http.get('http://localhost:3001/submit-data?searchString=' + sendquery).then(function (response) {
+                    this.isload = false;
+                    this.schoolInfo = response.body;
+                    // this.$http.get('http://localhost:3001/api/result').then(function (response) {
+                    //                 this.isload = false;
+                    //                 this.schoolInfo = response.body;
+                    //             }, function (response) {
+                    //                 console.log('error');
+                    //             });
                 });
     },
     choose (event) {
