@@ -1,6 +1,14 @@
-# lets_research_frontend
+# Research Map - frontend
 
-> A Vue.js project
+> Research Map, a innovative system for helping users with this issue by collecting data from four popular websites to get the worldwide professors information and providing the retrieval system to get the most suitable one.
+
+![landing](./img/1.png)
+
+## Visualization
+
+> Research Map wants to show where is the professor on the map and professor’s homepage.
+
+![](./img/3.png)
 
 ## Build Setup
 
