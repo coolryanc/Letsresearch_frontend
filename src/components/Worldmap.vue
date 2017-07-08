@@ -11,6 +11,7 @@ export default {
   name: 'worldmap',
   props: {
     flyLatLong: Array,
+    markGeoJson: ''
   },
   data () {
     return {
@@ -45,12 +46,14 @@ export default {
              "icon-image": "{icon}-15",
              "text-field": "{title}",
              "text-size": 14,
-             "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+             "text-font": ["Open Sans Semibold"],
              "text-offset": [0, 0.6],
              "text-anchor": "top",
           },
           "paint": {
-             "text-color": "#FF7058"
+             "text-halo-color": "#444444",
+             "text-halo-width": 20,
+             "text-color": "#FF7058",
           }
         });
         const mapObj = this.map;
@@ -68,7 +71,7 @@ export default {
     this.map.on('mouseenter', 'points', function (e) {
         this.getCanvas().style.cursor = 'pointer';
         popupObj.setLngLat(e.features[0].geometry.coordinates)
-            .setHTML(e.features[0].properties.title)
+            .setHTML('<h3>'+e.features[0].properties.title+'</h3>')
             .addTo(this);
     });
 
@@ -85,6 +88,28 @@ export default {
           zoom: scale,
           speed: 2
         });
+        if(coordinates[0]=="180" && coordinates[1]=="39"){
+          var popUps = document.getElementsByClassName('mapboxgl-popup');
+          if (popUps[0]) popUps[0].remove();
+        }
+        else{
+          this.createPopUp(coordinates);
+        }
+      },
+      createPopUp(coordinates) {
+        this.$http.get('http://localhost:3001/api/random-quote').then(function (response) {
+                        let _greet = response.body;
+                        var popUps = document.getElementsByClassName('mapboxgl-popup');
+                        // Check if there is already a popup on the map and if so, remove it
+                        if (popUps[0]) popUps[0].remove();
+                        var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
+                        this.popup = new mapboxgl.Popup({ closeOnClick: false })
+                          .setLngLat(coordinates)
+                          .setHTML('<h2>'+_greet+'</h2>')
+                          .addTo(this.map);
+                    }, function (response) {
+                        console.log('error');
+                    });
       }
   }, // End methods
   watch: {
@@ -109,5 +134,7 @@ export default {
   box-shadow: 0 10px 10px 2px rgba(black, 0.5)
   overflow: hidden
 
+.mapboxgl-popup-close-button
+  display: none
 
 </style>

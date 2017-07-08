@@ -8,15 +8,15 @@
         .introduce-text1 The <b>largest database</b> of Research Domain
         .awesomplete
          input(placeholder="Search Domain" v-model="searchString" name="searchString" type="text" @keyup.enter="submit()" @keyup.down="choose('down')" @keyup.up="choose('up')")
-         .button
+         .button(@click="submit()")
         .keyContain
           .keyList(v-for="(word,index) in filteredKeywords" v-if="index < 5 && searchString") {{word}}
-        .result-text(v-if="resultString") Result about <b>"{{resultString}}"</b>
+        .result-text(v-if="resultString") Result about <b>"{{resultString}}"</b>, total {{schoolInfo.length}}
       #resultContain
         .innerContain
           .load(v-if="isload")
-          Resultcube(v-for="(schoolItem, index) in schoolInfo" v-bind:data="schoolItem" v-bind:key="schoolItem.text" :schoolData="schoolItem" @fly="sendlatlong") {{index}}
-    Worldmap(:flyLatLong="flyArray")
+          Resultcube(v-for="(schoolItem, index) in schoolInfo" v-bind:data="schoolItem" v-bind:key="schoolItem.text" :schoolData="schoolItem" @fly="sendlatlong" :res="resultString") {{index}}
+    Worldmap(:flyLatLong="flyArray" :markGeoJson="markArray")
 </template>
 
 <script>
@@ -35,12 +35,19 @@ export default {
       keywords: null,
       keywordsIndex: -1,
       flyArray: ['180','0'],
-      isload: false
+      isload: false,
+      markArray: ""
     }
   },
   mounted () {
     this.$http.get('http://localhost:3001/api/keywords').then(function (response) {
                     this.keywords = response.body;
+                }, function (response) {
+                    console.log('error');
+                });
+    this.$http.get('http://localhost:3001/api/map').then(function (response) {
+                    this.markArray = response.body;
+                    // console.log(response.body);
                 }, function (response) {
                     console.log('error');
                 });
@@ -71,12 +78,6 @@ export default {
       this.$http.get('http://localhost:3001/submit-data?searchString=' + sendquery).then(function (response) {
                     this.isload = false;
                     this.schoolInfo = response.body;
-                    // this.$http.get('http://localhost:3001/api/result').then(function (response) {
-                    //                 this.isload = false;
-                    //                 this.schoolInfo = response.body;
-                    //             }, function (response) {
-                    //                 console.log('error');
-                    //             });
                 });
     },
     choose (event) {
@@ -225,6 +226,12 @@ export default {
   height: 30px
   background-image: url('../assets/search.svg')
   background-repeat: no-repeat
+  cursor: pointer
+  transition: .1s
+  &:hover
+    width: 33px
+    height: 33px
+
 
 .keyContain
   z-index: 999
